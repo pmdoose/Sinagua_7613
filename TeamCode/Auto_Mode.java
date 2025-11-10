@@ -29,12 +29,13 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -64,10 +65,19 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
+@Autonomous
 //@Disabled
-public class BasicOmniOpMode_Linear extends LinearOpMode {
+public class Auto_Mode extends LinearOpMode {
 
+    //servo settings
+  /*  static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
+    static final int    CYCLE_MS    =   50;     // period of each cycle
+    static final double MAX_POS     =  1.0;     // Maximum rotational position
+    static final double MIN_POS     =  0.0;     // Minimum rotational position
+    Servo   servo;
+    Servo servo2;
+    double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+    boolean rampUp = false;//*/
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftDrive = null;
@@ -77,18 +87,20 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     // weeltopmotor - this variable is to be used for control of the ball to be thrown
     private DcMotor weeltopmotor = null;
+    int counter = 50;
 
     @Override
     public void runOpMode() {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
-        frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_drive");
-        backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_drive");
-        frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_drive");
-        backRightDrive = hardwareMap.get(DcMotor.class, "back_right_drive");
+        frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
+        backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
+        frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
+        backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
         weeltopmotor = hardwareMap.get(DcMotor.class, "weeltopmotor");
-
+        //servo = hardwareMap.get(Servo.class,"Servo1");
+        //servo2 = hardwareMap.get(Servo.class,"Servo2");
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
         // ########################################################################################
@@ -118,12 +130,31 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            double lateral =  gamepad1.left_stick_x;
-            double yaw     =  gamepad1.right_stick_x;
+            double axial   = 0;//-gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+            double lateral =  0;//gamepad1.left_stick_x;
+            double yaw     =  0;//gamepad1.right_stick_x;
+
+            if (counter-- >= 0)
+            {
+                /*if (counter < 50)
+                {
+                    axial = 0.0;
+                    lateral = 1.0;
+                }
+                else//*/
+                {
+                    axial = 1.0;
+                    lateral = 0.0;
+                }
+
+            }
+            else
+            {
+                axial = 0.0;
+            }
 
             // Store gamepad button A state to be used later for throw ball
-            boolean Throw_ball  = gamepad1.right_bumper;
+//            boolean Throw_ball  = gamepad1.right_bumper;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
@@ -131,15 +162,41 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             double frontRightPower = axial - lateral - yaw;
             double backLeftPower   = axial - lateral + yaw;
             double backRightPower  = axial + lateral - yaw;
+            // slew the servo, according to the rampUp (direction) variable.
+            /*if (rampUp) {
+                // Keep stepping up until we hit the max value.
+                position += INCREMENT ;
+                if (position >= MAX_POS ) {
+                    position = MAX_POS;
+                    rampUp = !rampUp;   // Switch ramp direction
+                }
+            }
+            else {
+                // Keep stepping down until we hit the min value.
+                position -= INCREMENT ;
+                if (position <= MIN_POS ) {
+                    position = MIN_POS;
+                    rampUp = !rampUp;  // Switch ramp direction
+                }//*/
 // connecting throw_ball
-            if(Throw_ball)
+  /*          if(Throw_ball)
             {
                 weeltopmotor.setPower(1.0);
+                // Set the servo to the new position
+                //servo.setPosition(position);
+                //servo2.setPosition(position);
             }
             else
             {
                 weeltopmotor.setPower(0.0);
             }
+
+
+
+*/
+
+
+
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -181,6 +238,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
-            telemetry.update();
+            // Display the current value
+            //telemetry.addData("Servo Position", "%5.2f", position);
+            telemetry.addData(">", "Press Stop to end test." );
+            telemetry.update();telemetry.update();
+
+            sleep(10);
         }
-    }}
+    }
+}
