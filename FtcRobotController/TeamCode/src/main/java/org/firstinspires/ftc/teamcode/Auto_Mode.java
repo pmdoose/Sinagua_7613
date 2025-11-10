@@ -87,6 +87,8 @@ public class Auto_Mode extends LinearOpMode {
 
     // weeltopmotor - this variable is to be used for control of the ball to be thrown
     private DcMotor weeltopmotor = null;
+    //This counter is the length of time to run the robot in hundreths of a second
+    //100 = 1 second of runtime
     int counter = 42;
 
     @Override
@@ -134,15 +136,16 @@ public class Auto_Mode extends LinearOpMode {
             double lateral =  0;//gamepad1.left_stick_x;
             double yaw     =  0;//gamepad1.right_stick_x;
 
+            //This is where the Autonomous drive program commands are
             if (counter-- >= 0)
             {
                 /*if (counter < 50)
-                {
+                { //when counter is less than 50 run this code
                     axial = 0.0;
                     lateral = 1.0;
                 }
                 else//*/
-                {
+                {//Run the robot forward while counter is greater than 0
                     axial = 1.0;
                     lateral = 0.0;
                 }
@@ -243,6 +246,9 @@ public class Auto_Mode extends LinearOpMode {
             telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();telemetry.update();
 
+            //This is the timer which synchronizes the rest of this code with the clock
+            //The robot will continue to run what ever code was last seen while this is active
+            //Currently set to 10ms or 1/100th of a second.
             sleep(10);
         }
     }
