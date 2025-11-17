@@ -87,7 +87,7 @@ public class Auto_Mode extends LinearOpMode {
 
     // weeltopmotor - this variable is to be used for control of the ball to be thrown
     private DcMotor weeltopmotor = null;
-    //This counter is the length of time to run the robot in hundreths of a second
+    //This counter is the length of time to run the robot in hundredths of a second
     //100 = 1 second of runtime
     int counter = 42;
 
@@ -170,9 +170,9 @@ public class Auto_Mode extends LinearOpMode {
                 // Keep stepping up until we hit the max value.
                 position += INCREMENT ;
                 if (position >= MAX_POS ) {
-                    position = MAX_POS;
+                    position = MAX_POS; // position -= MAX_POS - MIN_POS //loop around code
                     rampUp = !rampUp;   // Switch ramp direction
-                }
+                } 
             }
             else {
                 // Keep stepping down until we hit the min value.
