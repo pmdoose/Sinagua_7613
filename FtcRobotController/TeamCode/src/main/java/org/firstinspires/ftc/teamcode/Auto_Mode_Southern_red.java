@@ -143,8 +143,8 @@ public class Auto_Mode_Southern_red extends LinearOpMode {
                 }
                 else//*/
                 {//Run the robot forward while counter is greater than 0
-                    axial = 1.0;
-                    lateral = 0.0;
+                    axial = 0.0;
+                    lateral = 1.0;
                     yaw = 0.0;
                 }
 
