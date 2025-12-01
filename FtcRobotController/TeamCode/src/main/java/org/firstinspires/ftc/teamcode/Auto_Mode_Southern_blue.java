@@ -145,13 +145,16 @@ public class Auto_Mode_Southern_blue extends LinearOpMode {
                 {//Run the robot forward while counter is greater than 0
                     axial = 1.0;
                     lateral = 0.0;
+                    yaw = 0.0;
                 }
 
             }
             else
             {
                 axial = 0.0;
-            }
+                lateral = 0.0;
+                yaw = 0.0;
+                }
 
             // Store gamepad button A state to be used later for throw ball
 //            boolean Throw_ball  = gamepad1.right_bumper;
