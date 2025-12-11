@@ -65,7 +65,7 @@ import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCapt
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous
+@Autonomous(name="Auto", group="Auto")
 //@Disabled
 public class Auto_Mode extends LinearOpMode {
 
