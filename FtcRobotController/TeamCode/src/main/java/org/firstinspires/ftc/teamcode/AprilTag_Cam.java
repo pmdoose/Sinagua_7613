@@ -22,7 +22,7 @@ public class AprilTag_Cam {
     /// to load a predefined calibration for your camera.
     private String cam_Name = "Webcam 1";
     private Size cam_resoultion = new Size(640, 480);
-    private double[] lensIntrinsics = {578.272, 578.272, 402.145, 221.506};
+    private double[] lensIntrinsics = {665.078057816219, 666.3406112108663, 327.37692391898537, 239.56696393516344};
 
 
     /// Declare processing objects
@@ -31,7 +31,6 @@ public class AprilTag_Cam {
 
     /// List for storing detected tags
     private ArrayList<AprilTagDetection> detectedTags = new ArrayList<>();
-
     /// Telemetry for display
     private Telemetry telemetry = null;
 

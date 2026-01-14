@@ -66,6 +66,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //@Disabled
 public class Drive_Mode extends LinearOpMode {
 
+
+    AprilTag_Cam tagCam = new AprilTag_Cam();
     //servo settings
   /*  static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int    CYCLE_MS    =   50;     // period of each cycle
@@ -132,7 +134,7 @@ public class Drive_Mode extends LinearOpMode {
 
             // Store gamepad button A state to be used later for throw ball
             boolean Throw_ball  = gamepad1.right_bumper;
-
+            boolean aim_rotation = gamepad1.left_bumper;
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
             double frontLeftPower  = axial + lateral + yaw;
@@ -168,7 +170,10 @@ public class Drive_Mode extends LinearOpMode {
                 weeltopmotor.setPower(0.0);
             }
 
+            if(aim_rotation)
+            {
 
+            }
 
 
 
@@ -180,12 +185,14 @@ public class Drive_Mode extends LinearOpMode {
             max = Math.max(max, Math.abs(backLeftPower));
             max = Math.max(max, Math.abs(backRightPower));
 
+
             if (max > 1.0) {
                 frontLeftPower  /= max;
                 frontRightPower /= max;
                 backLeftPower   /= max;
                 backRightPower  /= max;
             }
+
 
             // This is test code:
             //
