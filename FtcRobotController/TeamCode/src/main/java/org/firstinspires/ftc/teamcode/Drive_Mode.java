@@ -34,6 +34,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
 /*
  * This file contains an example of a Linear "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -89,7 +91,7 @@ public class Drive_Mode extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
+        tagCam.init(hardwareMap);
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
@@ -135,6 +137,23 @@ public class Drive_Mode extends LinearOpMode {
             // Store gamepad button A state to be used later for throw ball
             boolean Throw_ball  = gamepad1.right_bumper;
             boolean aim_rotation = gamepad1.left_bumper;
+
+            if(aim_rotation)
+            {
+                tagCam.update(); // Updates the AprilTag information using the current image from the camera
+                AprilTagDetection id20 = tagCam.getTagById(20);
+                if(id20!=null)
+                {
+                    if(id20.center.x <317) {
+                    yaw =0.5;
+                    }
+
+                    if(id20.center.x >323){
+                    yaw=-0.5;
+                    }
+                }
+            }
+           
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
             double frontLeftPower  = axial + lateral + yaw;
@@ -170,10 +189,7 @@ public class Drive_Mode extends LinearOpMode {
                 weeltopmotor.setPower(0.0);
             }
 
-            if(aim_rotation)
-            {
 
-            }
 
 
 
@@ -226,4 +242,5 @@ public class Drive_Mode extends LinearOpMode {
             telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();telemetry.update();
         }
+        tagCam.stop();
     }}

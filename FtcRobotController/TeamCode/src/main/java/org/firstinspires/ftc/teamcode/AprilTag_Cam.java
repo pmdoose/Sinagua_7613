@@ -21,7 +21,7 @@ public class AprilTag_Cam {
     /// If you do not manually specify calibration parameters, the SDK will attempt
     /// to load a predefined calibration for your camera.
     private String cam_Name = "Webcam 1";
-    private Size cam_resoultion = new Size(640, 480);
+    private Size cam_resoultion = new Size(640, 480); // Sets Camera Resoultion
     private double[] lensIntrinsics = {665.078057816219, 666.3406112108663, 327.37692391898537, 239.56696393516344};
 
 
@@ -44,45 +44,51 @@ public class AprilTag_Cam {
             visionPortal.close();
     }
 
+    /// Sets up the various systems we will be using to see the AprilTags
     public AprilTag_Cam init(@NonNull HardwareMap hwMap) {
         aprilTagProcessor = new AprilTagProcessor.Builder()
-                .setDrawTagID(true)
-                .setDrawTagOutline(true)
-                .setDrawAxes(true)
-                .setDrawCubeProjection(true) //*/
-                .setOutputUnits(DistanceUnit.METER, AngleUnit.DEGREES)
-                .setLensIntrinsics(
+                .setDrawTagID(true)  // Draw tag id over camera image
+                .setDrawTagOutline(true) // Draw tag outline
+                .setDrawAxes(true) // Draw a small axis (helps see tag orentation through the camera)
+                .setDrawCubeProjection(true) // Draws a cube over the AprilTag to show where it is being processed in the image*/
+                .setOutputUnits(DistanceUnit.METER, AngleUnit.DEGREES) // Sets the units which are being used
+                .setLensIntrinsics( // This sets the camera calibration data
                         lensIntrinsics[0],
                         lensIntrinsics[1],
                         lensIntrinsics[2],
                         lensIntrinsics[3])
-                .build();
+                .build(); // This Assembles everything together for proper processing
 
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-        builder.setCamera(hwMap.get(WebcamName.class, cam_Name));
-        builder.setCameraResolution(cam_resoultion);
-        builder.addProcessor(aprilTagProcessor);
+        VisionPortal.Builder builder = new VisionPortal.Builder(); // Defines a new Builder object
+        builder.setCamera(hwMap.get(WebcamName.class, cam_Name)); // Assigns the WebCamera to the builder
+        builder.setCameraResolution(cam_resoultion); // Sets the camera resoultion
+                                                        // (Must be defined or it will auto choose the highest resoultion which can cause issues
+        builder.addProcessor(aprilTagProcessor); // Adds the addembled AprilTag Processor to the builder
 
-        visionPortal = builder.build();
+        visionPortal = builder.build(); // Assembles the builder
 
         return this;
     }
 
+    // Sets the Telemetry Display object
     public AprilTag_Cam setTelemetry(@NonNull Telemetry telemetry) {
         this.telemetry = telemetry;
         return this;
     }
 
+    // Updates the AprilTag with the current image data
     public void update() {
         if (aprilTagProcessor == null) {return;}
 
         detectedTags =  aprilTagProcessor.getDetections();
     }
 
+    // returns the list of all detected tags
     public List<AprilTagDetection> getDetectedTags() {
         return detectedTags;
     }
 
+    // This uses the Telemetry object to display everything we know about the AprilTags
     public void displayDetectionTelemetry(AprilTagDetection detectedId)
     {
         if (this.telemetry == null) {return;}
