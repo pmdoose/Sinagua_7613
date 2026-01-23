@@ -94,10 +94,10 @@ public class Drive_Mode extends LinearOpMode {
         tagCam.init(hardwareMap);
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
-        frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
-        backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
-        frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
-        backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
+        frontLeftDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
+        backLeftDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
+        frontRightDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
+        backRightDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
         weeltopmotor = hardwareMap.get(DcMotor.class, "weeltopmotor");
         //servo = hardwareMap.get(Servo.class,"Servo1");
         //servo2 = hardwareMap.get(Servo.class,"Servo2");
@@ -144,16 +144,16 @@ public class Drive_Mode extends LinearOpMode {
                 AprilTagDetection id20 = tagCam.getTagById(20);
                 if(id20!=null)
                 {
-                    if(id20.center.x <317) {
-                    yaw =0.5;
+                    if(id20.center.x <310) {
+                        yaw =-0.1;
                     }
 
-                    if(id20.center.x >323){
-                    yaw=-0.5;
+                    if(id20.center.x >330){
+                        yaw=0.1;
                     }
                 }
             }
-           
+
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
             double frontLeftPower  = axial + lateral + yaw;

@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import android.util.Size;
 
-import androidx.annotation.NonNull;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -45,7 +43,7 @@ public class AprilTag_Cam {
     }
 
     /// Sets up the various systems we will be using to see the AprilTags
-    public AprilTag_Cam init(@NonNull HardwareMap hwMap) {
+    public AprilTag_Cam init( HardwareMap hwMap) {
         aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setDrawTagID(true)  // Draw tag id over camera image
                 .setDrawTagOutline(true) // Draw tag outline
@@ -71,7 +69,7 @@ public class AprilTag_Cam {
     }
 
     // Sets the Telemetry Display object
-    public AprilTag_Cam setTelemetry(@NonNull Telemetry telemetry) {
+    public AprilTag_Cam setTelemetry(Telemetry telemetry) {
         this.telemetry = telemetry;
         return this;
     }
