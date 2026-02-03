@@ -66,7 +66,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 @TeleOp(name="Drive Controller", group="Linear OpMode")
 //@Disabled
-public class Drive_Mode extends LinearOpMode {
+public class Drive_Mode_Blue extends LinearOpMode {
 
 
     AprilTag_Cam tagCam = new AprilTag_Cam();
@@ -144,13 +144,7 @@ public class Drive_Mode extends LinearOpMode {
                 AprilTagDetection id20 = tagCam.getTagById(20);
                 if(id20!=null)
                 {
-                    if(id20.center.x <310) {
-                        yaw =-0.1;
-                    }
-
-                    if(id20.center.x >330){
-                        yaw=0.1;
-                    }
+                    yaw=id20.center.x/320-1;
                 }
             }
 
@@ -237,6 +231,10 @@ public class Drive_Mode extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
+            //Show detected tag information
+            tagCam.getDetectedTags().forEach((item) -> {
+                telemetry.addData("ID center distance", "%d, (%d, %d), %4.2f", item.id, item.center.x, item.center.y, item.ftcPose.range);
+            });
             // Display the current value
             //telemetry.addData("Servo Position", "%5.2f", position);
             telemetry.addData(">", "Press Stop to end test." );

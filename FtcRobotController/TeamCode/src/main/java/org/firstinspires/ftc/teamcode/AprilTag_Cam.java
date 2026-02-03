@@ -82,7 +82,7 @@ public class AprilTag_Cam {
     }
 
     // returns the list of all detected tags
-    public List<AprilTagDetection> getDetectedTags() {
+    public ArrayList<AprilTagDetection> getDetectedTags() {
         return detectedTags;
     }
 
