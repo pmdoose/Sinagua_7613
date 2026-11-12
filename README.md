@@ -4,7 +4,8 @@ This repository hosts the robot program for the Sinagua Middle School FTC roboti
 
 ## Who wrote what
 
-- **Robot program:** written by the Sinagua students. It is hosted here for the team and is their work.
+- **Robot program:** written by the Sinagua students. It is hosted here for the team and is their work. 'FtcRobotController/TeamCode/src/main/java/org/firstinspires/ftc
+/teamcode/'
 - **Calibration tools (Python):** written by Paul Doose, the team's mentor. These are the only parts of this repository that are his own work. They are in `CameraCalibration`.
 
 ## Mentoring
